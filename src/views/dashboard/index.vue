@@ -14,6 +14,7 @@
         return {
         }
       },
+      /*computed:实时计算使用，vue检测到数据发生变动时就会执行对相应数据有引用的函数*/
       computed: {
         ...mapGetters([
           'name',
@@ -21,6 +22,7 @@
         ])
       },
       created() {
+
       }
     }
 </script>
