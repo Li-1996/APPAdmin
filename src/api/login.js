@@ -19,6 +19,13 @@ export function getInfo(token) {
   });
 }
 
+export function getBank(user_id) {
+  return fetch({
+    url: '/get_user_bank',
+    method: 'get',
+    params: { user_id }
+  });
+}
 export function logout() {
   return fetch({
     url: '/logout',

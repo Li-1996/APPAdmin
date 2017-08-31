@@ -6,13 +6,14 @@
         <img class="image" :src="value['head_image']" width="80" height="80">
         <el-tag type="primary" class="tag">user_id &nbsp&nbsp：{{value['user_id']}}</el-tag>
         <el-tag type="primary" class="tag">性&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp别：{{value['sex']}}</el-tag>
-        <el-tag type="primary" class="tag">关注人数：{{value['zqcy_auth']}}</el-tag>
+        <el-tag type="primary" class="tag">关注人数：{{value['focus_count']}}</el-tag>
         <el-tag type="primary" class="tag">昵&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp称：{{value['nick_name']}}</el-tag>
         <el-tag type="primary" class="tag">实名认证：{{value['real_name_auth']}}</el-tag>
         <el-tag type="primary" class="tag">红牛认证：{{value['red_bull_auth']}}</el-tag>
         <el-tag type="primary" class="tag">金牛认证：{{value['gold_bull_auth']}}</el-tag>
-        <el-button id="button" class="button" type="info" @click="balance(value['focus_count'])">余额
-        </el-button>
+        <div :data="balance" v-for="value in balance">
+          <el-button  id="button" class="button" type="info" @click="bank(value['balance'])">余额</el-button>
+        </div>
       </el-card>
     </el-row>
 
@@ -33,7 +34,7 @@
 
 <script>
   import {getUserList} from '@/api/table';
-
+  import {getUserBank} from '@/api/table';
   export default {
 
     data() {
@@ -55,17 +56,22 @@
         })
       },
 
-      balance: function (message) {
+      bank: function (message) {
         alert("余额:  " + message);
       },
 
       fetchData(params) {
         this.listLoading = true;
-        getUserList(params).then(response => {
+          getUserList(params).then(response => {
           this.list = response.detail.list;
           this.totals = response.detail.totals;
           this.listLoading = false;
 
+        }),
+          getUserBank(params).then(response => {
+            this.balance = response.detail.list;
+            this.totals = response.detail.totals;
+            this.listLoading = false;
         })
       }
     }

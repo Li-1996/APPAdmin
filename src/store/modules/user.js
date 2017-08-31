@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/login';
+import { login, logout, getBank, getInfo } from '@/api/login';
 import { getToken, setToken, removeToken } from '@/utils/auth';
 
 const user = {
@@ -45,6 +45,20 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
+          const data = response.detail;
+          commit('SET_ROLES', data.roles);
+          commit('SET_NAME', data.name);
+          commit('SET_AVATAR', data.avatar);
+          resolve(response);
+        }).catch(error => {
+          reject(error);
+        });
+      });
+    },
+
+    GetBank({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        getBank(state.token).then(response => {
           const data = response.detail;
           commit('SET_ROLES', data.roles);
           commit('SET_NAME', data.name);
